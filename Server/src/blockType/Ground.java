@@ -1,4 +1,8 @@
 package blockType;
 
-public class Ground {
+public final class Ground extends BlockType {
+
+	Ground() {
+		super(Type.GROUND);
+	}
 }
