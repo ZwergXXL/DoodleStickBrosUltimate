@@ -1,4 +1,4 @@
-package Spell;
+package spell;
 
 public class Skillshot {
 }

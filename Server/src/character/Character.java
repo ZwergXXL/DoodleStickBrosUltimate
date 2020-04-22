@@ -1,4 +1,5 @@
-package Character;
+package character;
 
 public class Character {
+
 }
