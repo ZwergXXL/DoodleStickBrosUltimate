@@ -1,14 +1,20 @@
+import processing.net.*; 
+
+
 ClientInput clientInput;
 
 void setup(){
   size(300, 300);
   background(0);
   clientInput = new ClientInput();
+
+
+  /**** Connect to Server ****/
+  Client socket = new Client(this, "127.0.0.1", 12345);
 }
 
 void draw(){
 }
-
 
 void keyPressed(){
   switch(keyCode){

@@ -37,6 +37,9 @@ public class Server extends Thread {
     void addPlayer() throws IOException {
         Socket socket = serverSocket.accept();
         Player newPlayer = new Player(socket, playerList.size());
+        newPlayer.start();
         playerList.add(newPlayer);
+
+        System.out.println("New Player Connected!");
     }
 }

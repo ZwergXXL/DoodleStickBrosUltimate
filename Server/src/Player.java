@@ -43,6 +43,7 @@ public class Player extends Thread{
             while (true) {
                 input = in.readLine();
                 if(input != null){
+                    System.out.println(input);
 
                     switch (input){
                         case "idk":
@@ -65,6 +66,8 @@ public class Player extends Thread{
     void getInputData(){
         try {
             String[] input  = in.readLine().split("_");  // Movement Jump Ability
+
+            System.out.println(input);
 
             switch (input[0]){
                 case "A":
