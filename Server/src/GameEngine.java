@@ -1,11 +1,14 @@
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class GameEngine implements Runnable {
 
 	private final Map map;
-
-	GameEngine() {
-		map = new Map();
+	private final ArrayList<Character> characterList;
+	
+	GameEngine(ArrayList<Character> characterList) {
+		this.map = new Map();
+		this.characterList = characterList;
 	}
 
 	@Override
@@ -18,15 +21,17 @@ public final class GameEngine implements Runnable {
 		int mapTileSetCounter = 0;
 		// randomNumber for mapGenerator a.k.a. map.addTileSet
 		int randomNumber;
+		long mapUpdateTimer=tickBeginning+(33*5);
 		while (true) {
 
 			// 60 FPS every frame the Engine updates itself
 			if (tickBeginning + 33 < System.currentTimeMillis()) {
 				fpsCounter++;
-				tickBeginning = System.currentTimeMillis();
 
 				// ----------------------------Map-Specific----------------------------BEGIN
-				if (fpsCounter % 6 == 0) {
+				// Every 5 frames do this
+				
+				if (mapUpdateTimer < System.currentTimeMillis()) {
 					map.moveAllDown();
 					mapTileSetCounter++;
 					if (mapTileSetCounter == 24) {
@@ -34,11 +39,17 @@ public final class GameEngine implements Runnable {
 						// SHOULD BE UPDATED WITH EACH NEW TILESET
 						randomNumber = ThreadLocalRandom.current().nextInt(1, 1 + 1);
 						map.addTileSet(randomNumber);
+						mapTileSetCounter = 0;
 					}
 				}
 
 				// ----------------------------Map-Specific----------------------------END
-
+				
+				// -------------------------Character-Specific-----------------------BEGIN
+				
+				// -------------------------Character-Specific-----------------------END
+				
+				tickBeginning += 33;
 			}
 
 			// FPS-Counter
@@ -58,5 +69,6 @@ public final class GameEngine implements Runnable {
 		}
 
 	}
+	private void
 
 }

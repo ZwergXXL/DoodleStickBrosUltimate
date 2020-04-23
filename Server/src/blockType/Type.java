@@ -1,5 +1,5 @@
 package blockType;
 
 public enum Type {
-	DAMAGE, GROUND;
+	DAMAGE, GROUND, AIR;
 }
