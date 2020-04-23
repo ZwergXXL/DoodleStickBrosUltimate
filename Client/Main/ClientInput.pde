@@ -7,10 +7,7 @@ public class ClientInput{
 		for(int i = 0; i < keysPressed.length; i++){
 	    keysPressed[i] = false;
 		}
-
-    println("test");
 	}
 
 
-  
 }
