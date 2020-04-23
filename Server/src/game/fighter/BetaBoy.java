@@ -1,7 +1,7 @@
 package game.fighter;
 
 import game.Map;
-import serverCommunication.Player;
+import server.Player;
 
 public class BetaBoy extends Fighter {
 

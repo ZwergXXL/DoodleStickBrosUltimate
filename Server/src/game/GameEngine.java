@@ -2,7 +2,7 @@ package game;
 
 import game.fighter.BetaBoy;
 import game.fighter.Fighter;
-import serverCommunication.Player;
+import server.Player;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;

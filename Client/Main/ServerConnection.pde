@@ -36,7 +36,6 @@ public class ServerConnection {
       input[1] = "W";
     }
 
-
     // w a s d
     if (userInputs[2]) { //S
       input[0] = "S";
@@ -51,6 +50,11 @@ public class ServerConnection {
 
     out.println(input[0] + "_" + input[1] + "_" + input[2]);
   }
+  
+  
+  
+  
+
 
 
   void disconnect() {

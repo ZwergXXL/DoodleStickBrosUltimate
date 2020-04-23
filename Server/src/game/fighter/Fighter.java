@@ -1,10 +1,7 @@
 package game.fighter;
 
-import blockType.Damage;
-import game.GameEngine;
 import game.Map;
-import serverCommunication.Player;
-import serverCommunication.Server;
+import server.Player;
 
 public class Fighter {
 

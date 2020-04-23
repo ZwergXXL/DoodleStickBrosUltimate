@@ -1,4 +1,4 @@
-package serverCommunication;
+package server;
 
 import game.fighter.Fighter;
 

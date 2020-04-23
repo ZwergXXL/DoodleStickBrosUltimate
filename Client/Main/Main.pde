@@ -1,23 +1,26 @@
-import processing.net.*; 
-
-
 ClientInput clientInput;
 ServerConnection serverConnection;
 
+
+
 void setup(){
-  size(300, 300);
-  background(0);
+  fullScreen();
+  //size(1920,1080); 
+  background(255);
   
-  clientInput = new ClientInput();
-
-  /**** Connect to Server ****/
-
-  serverConnection = new ServerConnection(clientInput);
+  //clientInput = new ClientInput();
+  //serverConnection = new ServerConnection(clientInput);
+  
+  new Map();
 }
 
 void draw(){
- serverConnection.sendUserInput();
+ 
 }
+
+
+
+
 
 void keyPressed(){
   switch(keyCode){

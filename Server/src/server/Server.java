@@ -1,8 +1,6 @@
-package serverCommunication;
+package server;
 
 import game.GameEngine;
-import game.fighter.BetaBoy;
-import game.fighter.Fighter;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -66,13 +64,6 @@ public class Server {
         lobby.add(player);
         GameEngine gameEngine = new GameEngine(lobby);
     }
-
-
-
-
-
-
-
 
 
 
