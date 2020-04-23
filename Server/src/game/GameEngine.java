@@ -1,14 +1,27 @@
+package game;
+
+import game.fighter.BetaBoy;
+import game.fighter.Fighter;
+import serverCommunication.Player;
+
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class GameEngine implements Runnable {
 
 	private final Map map;
-	private final ArrayList<Character> characterList;
-	
-	GameEngine(ArrayList<Character> characterList) {
+	private final ArrayList<Fighter> fighterList;
+	private final ArrayList<Player> playerList;
+
+	public GameEngine(ArrayList<Player> playerList) {
 		this.map = new Map();
-		this.characterList = characterList;
+		this.playerList = playerList;
+		fighterList = new ArrayList<>();
+
+		for (Player player: playerList){
+			player.setFighter(new BetaBoy(player, map));
+			fighterList.add(player.getFighter());
+		}
 	}
 
 	@Override
@@ -28,9 +41,9 @@ public final class GameEngine implements Runnable {
 			if (tickBeginning + 33 < System.currentTimeMillis()) {
 				fpsCounter++;
 
-				// ----------------------------Map-Specific----------------------------BEGIN
+				// ----------------------------Game.Map-Specific----------------------------BEGIN
 				// Every 5 frames do this
-				
+
 				if (mapUpdateTimer < System.currentTimeMillis()) {
 					map.moveAllDown();
 					mapTileSetCounter++;
@@ -43,12 +56,12 @@ public final class GameEngine implements Runnable {
 					}
 				}
 
-				// ----------------------------Map-Specific----------------------------END
-				
-				// -------------------------Character-Specific-----------------------BEGIN
-				
-				// -------------------------Character-Specific-----------------------END
-				
+				// ----------------------------Game.Map-Specific----------------------------END
+
+				// -------------------------fighter-Specific-----------------------BEGIN
+
+				// -------------------------fighter-Specific-----------------------END
+
 				tickBeginning += 33;
 			}
 
@@ -69,6 +82,4 @@ public final class GameEngine implements Runnable {
 		}
 
 	}
-	private void
-
 }

@@ -1,4 +1,6 @@
-import character.BetaBoy;
+package serverCommunication;
+
+import game.fighter.Fighter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,14 +13,22 @@ public class Player extends Thread{
     final Socket socket;
     final int key;
 
+    int gameEngineIndex;
+
+
+
+    boolean inGame;
+    Fighter fighter;
+
+    Server server;
     BufferedReader in;
     PrintWriter out;
 
-    BetaBoy betaBoy;
-
-    Player(Socket socket, int key){
+    Player(Socket socket, int key, Server server){
+        this.server = server;
         this.socket = socket;
         this.key = key;
+        inGame = false;
 
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -28,13 +38,11 @@ public class Player extends Thread{
         }
 
 
-
-        betaBoy = new BetaBoy();
     }
 
     @Override
     public void run() {
-        inMenu();
+        //inMenu();
     }
 
     void inMenu(){
@@ -48,7 +56,12 @@ public class Player extends Thread{
                     switch (input){
                         case "idk":
                             break;
-                        default: System.out.println("Menu Input nicht vorhanden: " + input);
+
+                            // start game with space
+                        case " ":
+                            startGame();
+                            return;
+                        default: System.out.println("ServerCommunication.Menu Input nicht vorhanden: " + input);
                     }
 
 
@@ -62,12 +75,20 @@ public class Player extends Thread{
     }
 
 
+    /****** INGAME *****************/
 
-    void getInputData(){
+    void startGame(){
+        inGame = true;
+        server.joinLobby(this);
+    }
+
+    public void setFighter(Fighter fighter){
+        this.fighter = fighter;
+    }
+
+    public void getInputData(){
         try {
             String[] input  = in.readLine().split("_");  // Movement Jump Ability
-
-            System.out.println(input);
 
             switch (input[0]){
                 case "A":
@@ -101,5 +122,32 @@ public class Player extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+
+
+
+
+
+
+    public int getGameEngineIndex() {
+        return gameEngineIndex;
+    }
+
+    public void setGameEngineIndex(int gameEngineIndex) {
+        this.gameEngineIndex = gameEngineIndex;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
+    }
+
+    public Fighter getFighter() {
+        return fighter;
     }
 }

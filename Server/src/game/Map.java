@@ -1,3 +1,5 @@
+package game;
+
 import blockType.*;
 
 public final class Map {
@@ -33,7 +35,7 @@ public final class Map {
 		}
 	}
 
-	// loads a preset tileSet from switch case to top Row of Map
+	// loads a preset tileSet from switch case to top Row of Game.Map
 	public void addTileSet(int preset) {
 		BlockType[][] newTileSet = getTileset(preset);
 		for (int x = 0; x < map[0].length; x++) {
@@ -80,5 +82,13 @@ public final class Map {
 		}
 
 		return tileSet;
+	}
+
+	public void createDmgBlock(int x, int y, int length, int height, int dmg){
+		for (int i=x; i< length;i ++){
+			for (int j=y; j< height;j ++){
+				dynamicBlockChange(i , j, new Damage(dmg));
+			}
+		}
 	}
 }
