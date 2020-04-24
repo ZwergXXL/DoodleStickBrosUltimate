@@ -53,10 +53,14 @@ public class ServerConnection {
   
   
   
+  String readServerData()  throws IOException{
+    String data = in.readLine();
+    if(data == null){
+      return readServerData();
+    }
+    return data;
+  }
   
-
-
-
   void disconnect() {
     try {
       socket.close();

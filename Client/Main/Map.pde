@@ -26,4 +26,18 @@ public class Map {
       }
     }
   }
+  
+  
+  void updateMap(String data) {
+    String[] dataSet = data.split("_");
+    String[] mapBlocks = dataSet[0].split(";");
+    
+    fill(0)
+    String[] blockData;
+    for (int i = 0; i < mapBlocks.length; i++) {
+      blockData =  mapBlocks[i].split(",");
+      rect(Integer.parseInt(blockData[0]) * 15, Integer.parseInt(blockData[1]) * 15, Integer.parseInt(blockData[2]) * 15 ,15);
+    }
+               
+  }
 }
