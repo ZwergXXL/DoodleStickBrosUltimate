@@ -18,7 +18,7 @@ public final class GameEngine implements Runnable {
 		this.playerList = playerList;
 		fighterList = new ArrayList<>();
 
-		for (Player player: playerList){
+		for (Player player : playerList) {
 			player.setFighter(new BetaBoy(player, map));
 			fighterList.add(player.getFighter());
 		}
@@ -31,36 +31,16 @@ public final class GameEngine implements Runnable {
 		int fpsCounter = 0;
 		// every time the map moves down 24 blocks (1/3 of the screen) a new TileSet
 		// should be added at the top
-		int mapTileSetCounter = 0;
-		// randomNumber for mapGenerator a.k.a. map.addTileSet
-		int randomNumber;
-		long mapUpdateTimer=tickBeginning+(33*5);
+
+		long mapUpdateTimer = tickBeginning + (33 * 5);
 		while (true) {
 
 			// 60 FPS every frame the Engine updates itself
 			if (tickBeginning + 33 < System.currentTimeMillis()) {
 				fpsCounter++;
 
-				// ----------------------------Game.Map-Specific----------------------------BEGIN
-				// Every 5 frames do this
-
-				if (mapUpdateTimer < System.currentTimeMillis()) {
-					map.moveAllDown();
-					mapTileSetCounter++;
-					if (mapTileSetCounter == 24) {
-
-						// SHOULD BE UPDATED WITH EACH NEW TILESET
-						randomNumber = ThreadLocalRandom.current().nextInt(1, 1 + 1);
-						map.addTileSet(randomNumber);
-						mapTileSetCounter = 0;
-					}
-				}
-
-				// ----------------------------Game.Map-Specific----------------------------END
-
-				// -------------------------fighter-Specific-----------------------BEGIN
-
-				// -------------------------fighter-Specific-----------------------END
+				fighterUpdate();
+				mapUpdate(mapUpdateTimer);
 
 				tickBeginning += 33;
 			}
@@ -81,5 +61,27 @@ public final class GameEngine implements Runnable {
 			}
 		}
 
+	}
+
+	private void mapUpdate(long mapUpdateTimer) {
+		int mapTileSetCounter = 0;
+		// randomNumber for mapGenerator a.k.a. map.addTileSet
+		int randomNumber;
+		// Every 5 frames do this
+		if (mapUpdateTimer < System.currentTimeMillis()) {
+			map.moveAllDown();
+			mapTileSetCounter++;
+			if (mapTileSetCounter == 24) {
+
+				// SHOULD BE UPDATED WITH EACH NEW TILESET
+				randomNumber = ThreadLocalRandom.current().nextInt(1, 1 + 1);
+				map.addTileSet(randomNumber);
+				mapTileSetCounter = 0;
+			}
+		}
+	}
+
+	private void fighterUpdate() {
+		// TO-DO
 	}
 }

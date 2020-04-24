@@ -8,7 +8,7 @@ public final class Map {
 
 	// 72*2 = 144 map grows outside of render distance
 	BlockType[][] map = new BlockType[128][144];
-
+	
 	// Tileset filled with Air
 
 	BlockType[][] emptyTileset = new BlockType[128][24];
@@ -35,6 +35,7 @@ public final class Map {
 		}
 	}
 
+
 	// loads a preset tileSet from switch case to top Row of Game.Map
 	public void addTileSet(int preset) {
 		BlockType[][] newTileSet = getTileset(preset);
@@ -55,8 +56,18 @@ public final class Map {
 
 	// change Blocktype on given coordinates
 	public void dynamicBlockChange(int x, int y, BlockType block) {
-
 		map[x][y] = block;
+	}
+
+	// same as dynamicBlockChange but for damageBlocks and also checking for ground
+	// blocks
+	private boolean airToDamage(int x, int y, Damage dmg) {
+		if (map[x][y].getType() == Type.GROUND) {
+			return false;
+		}
+
+		map[x][y] = dmg;
+		return true;
 	}
 
 	// WHENEVER CHANGED, ALSO UPDATE MIN & MAX IN GAME ENGINE -> MAP-SPECIFIC ->
@@ -84,10 +95,13 @@ public final class Map {
 		return tileSet;
 	}
 
-	public void createDmgBlock(int x, int y, int length, int height, int dmg){
-		for (int i=x; i< length;i ++){
-			for (int j=y; j< height;j ++){
-				dynamicBlockChange(i , j, new Damage(dmg));
+	public void createDmgBlock(int x, int y, int length, int height, int dmg) {
+		for (int i = x; i < length; i++) {
+			for (int j = y; j < height; j++) {
+
+				if (!airToDamage(i, j, new Damage(dmg))) {
+					break;
+				}
 			}
 		}
 	}
