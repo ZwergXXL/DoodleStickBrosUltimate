@@ -1,12 +1,11 @@
 package server;
 
+import game.Entity;
 import game.fighter.Fighter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Player extends Thread{
 
@@ -21,8 +20,8 @@ public class Player extends Thread{
     Fighter fighter;
 
     Server server;
-    BufferedReader in;
-    PrintWriter out;
+    ObjectInputStream in;
+    ObjectOutputStream out;
 
     Player(Socket socket, int key, Server server){
         this.server = server;
@@ -31,13 +30,11 @@ public class Player extends Thread{
         inGame = false;
 
         try {
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream((socket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override
@@ -49,7 +46,7 @@ public class Player extends Thread{
         String input;
         try {
             while (true) {
-                input = in.readLine();
+                input = (String) in.readObject();
                 if(input != null){
                     System.out.println(input);
 
@@ -61,14 +58,11 @@ public class Player extends Thread{
                         case " ":
                             startGame();
                             return;
-                        default: System.out.println("ServerCommunication.Menu Input nicht vorhanden: " + input);
+                        default: System.out.println("Menu Input nicht vorhanden: " + input);
                     }
-
-
                 }
-
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -87,8 +81,13 @@ public class Player extends Thread{
     }
 
     public void getInputData(){
+        String[] input = null;
         try {
-            String[] input  = in.readLine().split("_");  // Movement Jump Ability
+            out.writeObject("sendInput");
+
+            while (input == null) {
+            input = ((String) in.readObject()).split("_");  // Movement Jump Ability
+            }
 
             switch (input[0]){
                 case "A":
@@ -119,11 +118,20 @@ public class Player extends Thread{
                     break;
             }
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
+
+    public void sendGameData(int[][] map, ArrayList<Entity> entities){
+        try {
+            out.writeObject(map);
+            out.writeObject(entities);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

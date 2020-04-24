@@ -1,4 +1,4 @@
-package spell;
+package game.spell;
 
 public class Skillshot {
 }

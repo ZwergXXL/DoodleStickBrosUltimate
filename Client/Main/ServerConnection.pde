@@ -1,12 +1,13 @@
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.io.*;
 
 public class ServerConnection {
 
   Socket socket;
-  BufferedReader in;
-  PrintWriter out;
+  ObjectInputStream in;
+  ObjectOutputStream out;
   ClientInput clientInput;
 
   ServerConnection(ClientInput clientInput) {
@@ -14,13 +15,14 @@ public class ServerConnection {
       this.socket = new Socket("127.0.0.1", 12345);
       this.clientInput = clientInput;
 
-      in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      out = new PrintWriter(socket.getOutputStream(), true);
+      out = new ObjectOutputStream(socket.getOutputStream());
+      in = new ObjectInputStream((socket.getInputStream()));
     } 
     catch (IOException e) {
       e.printStackTrace();
     }
   }
+
 
 
   // Sends Userinput to Server
@@ -48,19 +50,25 @@ public class ServerConnection {
       }
     }
 
-    out.println(input[0] + "_" + input[1] + "_" + input[2]);
+    try {
+      out.writeObject(new String(input[0] + "_" + input[1] + "_" + input[2]));
+    }
+    catch(IOException e) {
+    }
   }
-  
-  
-  
-  String readServerData()  throws IOException{
-    String data = in.readLine();
-    if(data == null){
-      return readServerData();
+
+
+  Object readServerObject()  throws IOException, ClassNotFoundException {
+    Object data = in.readObject();
+    if (data == null) {
+      return readServerObject();
     }
     return data;
   }
   
+  
+  
+
   void disconnect() {
     try {
       socket.close();
