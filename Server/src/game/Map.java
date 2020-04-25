@@ -4,7 +4,7 @@ package game;
 public final class Map {
 
 	// 72*2 = 144 map grows outside of render distance
-	int[][] map = new int[128][144];
+	private int[][] map = new int[128][144];
 
 	// Tileset filled with Air
 
@@ -66,5 +66,14 @@ public final class Map {
 		return tileSet;
 	}
 
+	public int[][] getMap(){
+		return map;
+	}
 	
+	public boolean isWall (int x, int y) {
+		if(map[x][y] == 1) {
+			return true;
+		}
+		return false;
+	}
 }
