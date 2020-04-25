@@ -86,6 +86,15 @@ public class ServerConnection {
    }
    */
    
+   String readEntityString() throws IOException, ClassNotFoundException {
+   String data = (String)in.readObject();
+   if(data != null){
+     return data;
+   }
+   delay(1);
+   return readEntityString();
+   }
+   
 
 
   void disconnect() {
