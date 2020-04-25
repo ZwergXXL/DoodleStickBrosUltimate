@@ -1,44 +1,27 @@
 package game;
 
-import blockType.*;
 
 public final class Map {
 
-	private Air air = new Air();
-
 	// 72*2 = 144 map grows outside of render distance
-	BlockType[][] map = new BlockType[128][144];
-	
+	int[][] map = new int[128][144];
+
 	// Tileset filled with Air
 
-	BlockType[][] emptyTileset = new BlockType[128][24];
+	int[][] emptyTileset = new int[128][24];
 
 	public Map() {
-		// generate empty map
-		for (int x = 0; x < map[0].length; x++) {
-			for (int y = 0; y < map.length; y++) {
-				map[x][y] = air;
-			}
-		}
-		// generate empty Tileset
-		for (int x = 0; x < emptyTileset[0].length; x++) {
-			for (int y = 0; y < emptyTileset.length; y++) {
-				emptyTileset[x][y] = air;
-			}
-		}
 
 		// Starting Platform
-		Ground base = new Ground(100);
 		for (int x = 14; x < map[0].length - 14; x++) {
-			map[x][120] = base;
+			map[x][120] = 1;
 			;
 		}
 	}
 
-
 	// loads a preset tileSet from switch case to top Row of Game.Map
 	public void addTileSet(int preset) {
-		BlockType[][] newTileSet = getTileset(preset);
+		int[][] newTileSet = getTileset(preset);
 		for (int x = 0; x < map[0].length; x++) {
 			for (int y = 0; y < 23; y++) {
 				map[x][y] = newTileSet[x][y];
@@ -55,25 +38,14 @@ public final class Map {
 	}
 
 	// change Blocktype on given coordinates
-	public void dynamicBlockChange(int x, int y, BlockType block) {
-		map[x][y] = block;
-	}
-
-	// same as dynamicBlockChange but for damageBlocks and also checking for ground
-	// blocks
-	private boolean airToDamage(int x, int y, Damage dmg) {
-		if (map[x][y].getType() == Type.GROUND) {
-			return false;
-		}
-
-		map[x][y] = dmg;
-		return true;
+	public void dynamicBlockChange(int x, int y, int i) {
+		map[x][y] = i;
 	}
 
 	// WHENEVER CHANGED, ALSO UPDATE MIN & MAX IN GAME ENGINE -> MAP-SPECIFIC ->
 	// RANDOMNUMBER
-	private BlockType[][] getTileset(int preset) {
-		BlockType[][] newTileset = emptyTileset;
+	private int[][] getTileset(int preset) {
+		int[][] newTileset = emptyTileset;
 
 		switch (preset) {
 		case 1:
@@ -86,23 +58,13 @@ public final class Map {
 		return null;
 	}
 
-	private BlockType[][] insertLineOfGround(int x, int y, int length, BlockType[][] tileSet) {
-		Ground newLine = new Ground(length);
+	private int[][] insertLineOfGround(int x, int y, int length, int[][] tileSet) {
 		for (int i = 0; i < length; i++) {
-			tileSet[x + i][y] = newLine;
+			tileSet[x + i][y] = 1;
 		}
 
 		return tileSet;
 	}
 
-	public void createDmgBlock(int x, int y, int length, int height, int dmg) {
-		for (int i = x; i < length; i++) {
-			for (int j = y; j < height; j++) {
-
-				if (!airToDamage(i, j, new Damage(dmg))) {
-					break;
-				}
-			}
-		}
-	}
+	
 }

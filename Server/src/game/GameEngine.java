@@ -1,11 +1,12 @@
 package game;
 
-import game.fighter.BetaBoy;
-import game.fighter.Fighter;
 import server.Player;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import entities.BetaBoy;
+import entities.Fighter;
 
 public final class GameEngine implements Runnable {
 

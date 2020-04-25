@@ -1,4 +1,4 @@
-package game.fighter;
+package entities;
 
 import game.Map;
 import server.Player;
