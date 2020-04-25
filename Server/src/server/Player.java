@@ -1,7 +1,7 @@
 package server;
 
-import game.Entity;
-import game.fighter.Fighter;
+import entities.Entity;
+import entities.Fighter;
 
 import java.io.*;
 import java.net.Socket;
@@ -90,18 +90,20 @@ public class Player extends Thread{
             }
 
             switch (input[0]){
-                case "A":
+                case "11":
                     break;
-                case "S":
+                case "10":
                     break;
-                case "D":
+                case "00":
+                    break;
+                case "01":
                     break;
                 case "/":
                     break;
             }
 
             switch (input[1]){
-                case "W":
+                case "jump":
                     break;
                 case "/":
                     break;

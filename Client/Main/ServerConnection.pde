@@ -41,7 +41,7 @@ public class ServerConnection {
 
     //checks for jump
     if (userInputs[4]) { //Space
-      input[1] = "true";
+      input[1] = "jump";
     }
 
     // w a s d
@@ -75,6 +75,7 @@ public class ServerConnection {
   }
 
   
+  /*
    ArrayList<Entity> readEntityList() throws IOException, ClassNotFoundException {
    Object data = in.readObject();
    if (data.getClass().getName() == "Idk???") {
@@ -83,7 +84,9 @@ public class ServerConnection {
    delay(1);
    return readEntityList();
    }
-  
+   */
+   
+
 
   void disconnect() {
     try {

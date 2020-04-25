@@ -5,11 +5,35 @@ public class Entity {
 	int id, length, height, x, y, xAcc, yAcc, xVel, yVel, maxVel, frameID;
 	byte direction;
 	
-	
-	Entity(int id, int x, int y, int height, int length, int xAcc , int yAcc, byte direction){
-		
+
+	public Entity(int id, int length, int height, int x, int y, int xAcc, int yAcc, int xVel, int yVel, int maxVel) {
+		this.id = id;
+		this.length = length;
+		this.height = height;
+		this.x = x;
+		this.y = y;
+		this.xAcc = xAcc;
+		this.yAcc = yAcc;
+		this.xVel = xVel;
+		this.yVel = yVel;
+		this.maxVel = maxVel;
 	}
-	
+
+	public Entity(int id, int length, int height, int x, int y, int xAcc, int yAcc, int xVel, int yVel, int maxVel, int frameID, byte direction) {
+		this.id = id;
+		this.length = length;
+		this.height = height;
+		this.x = x;
+		this.y = y;
+		this.xAcc = xAcc;
+		this.yAcc = yAcc;
+		this.xVel = xVel;
+		this.yVel = yVel;
+		this.maxVel = maxVel;
+		this.frameID = frameID;
+		this.direction = direction;
+	}
+
 	public void nextFrame() {
 	}
 
