@@ -26,7 +26,13 @@ public class ServerConnection {
 
 
   // Sends Userinput to Server
-  void sendUserInput() {
+  void sendUserInput() throws IOException, ClassNotFoundException {
+    String request = (String) in.readObject();
+    if (request != "sendInput") {
+      sendUserInput();
+      delay(1);
+    }
+
     boolean[] userInputs = clientInput.keysPressed;
     String[] input = new String[3];
     for (int i = 0; i < input.length; i++) {
@@ -34,19 +40,21 @@ public class ServerConnection {
     }
 
     //checks for jump
-    if (userInputs[0]) { //W
-      input[1] = "W";
+    if (userInputs[4]) { //Space
+      input[1] = "true";
     }
 
     // w a s d
     if (userInputs[2]) { //S
-      input[0] = "S";
-    } else if (!(userInputs[1]&&userInputs[3])) { //A
+      input[0] = "00";
+    } else if (userInputs[0]) { //W
+      input[0] = "11";
+    } else if (!(userInputs[1]&&userInputs[3])) { //!(A & D)
       if (userInputs[1]) {
-        input[0] = "A";
+        input[0] = "10";
       }
       if (userInputs[3]) {
-        input[0] = "D";
+        input[0] = "01";
       }
     }
 
@@ -57,16 +65,24 @@ public class ServerConnection {
     }
   }
 
-
-  Object readServerObject()  throws IOException, ClassNotFoundException {
+  int[][] readMap() throws IOException, ClassNotFoundException {
     Object data = in.readObject();
-    if (data == null) {
-      return readServerObject();
+    if (data.getClass().getName() == "[[I") {
+      return (int[][]) data;
     }
-    return data;
+    delay(1);
+    return readMap();
   }
+
   
-  
+   ArrayList<Entity> readEntityList() throws IOException, ClassNotFoundException {
+   Object data = in.readObject();
+   if (data.getClass().getName() == "Idk???") {
+   return (ArrayList<Entity>) data;
+   }
+   delay(1);
+   return readEntityList();
+   }
   
 
   void disconnect() {

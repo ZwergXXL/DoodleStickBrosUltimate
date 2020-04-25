@@ -1,21 +1,9 @@
 public class Map {
 
-  int[][] map = new int[128][72];
-
-
   Map() {
-    for (int x = 0; x < 128; x++) {
-      for (int y = 0; y < 72; y++) {    
-        map[x][y] = 0;
-      }
-    }
-    map[0][0] = -1;
-    map[15][15] = -1;
-    map[127][71] = -1;
-    updateMap();
   }
 
-  void updateMap() {
+  void updateMap(int[][] map) {
     fill(0);
     for (int x = 0; x < 128; x++) {
       for (int y = 0; y < 72; y++) {
@@ -26,18 +14,20 @@ public class Map {
       }
     }
   }
-  
-  
-  void updateMap(String data) {
-    String[] dataSet = data.split("_");
-    String[] mapBlocks = dataSet[0].split(";");
-    
-    fill(0)
-    String[] blockData;
-    for (int i = 0; i < mapBlocks.length; i++) {
-      blockData =  mapBlocks[i].split(",");
-      rect(Integer.parseInt(blockData[0]) * 15, Integer.parseInt(blockData[1]) * 15, Integer.parseInt(blockData[2]) * 15 ,15);
+
+
+  void updateEntities(ArrayList<Entity> entities) {
+    Entity entity;
+    for (int i = 0; i < entities.size(); i++) {
+      entity = entities.get(i);
+      switch(entity.id) {
+      case 0: 
+        fill(0);
+
+      default: 
+        fill(#E32FF7);
+      }
+      rect(entity.x * 15, entity.y * 15, entity.length * 15, entity.height * 15);
     }
-               
   }
 }
