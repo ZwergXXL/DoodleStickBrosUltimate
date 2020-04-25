@@ -20,7 +20,7 @@ public final class GameEngine implements Runnable {
 		fighterList = new ArrayList<>();
 
 		for (Player player : playerList) {
-			player.setFighter(new BetaBoy(player, map));
+			player.setFighter(new Fighter(0, 2, 6, 20, 50, 2, 2, 0, 0, 10, player, this.map, 100));
 			fighterList.add(player.getFighter());
 		}
 	}
@@ -42,6 +42,7 @@ public final class GameEngine implements Runnable {
 
 				fighterUpdate();
 				mapUpdate(mapUpdateTimer);
+				sendData();
 
 				tickBeginning += 33;
 			}
@@ -83,6 +84,26 @@ public final class GameEngine implements Runnable {
 	}
 
 	private void fighterUpdate() {
-		// TO-DO
+		for (Fighter fighter : fighterList) {
+			fighter.nextFrame();
+		}
+	}
+
+	private void sendData() {
+		String s = "";
+		for (Fighter fighter : fighterList) {
+			s += fighter.toString() + ';';
+		}
+		int[][] newMap = new int[128][72];
+		int counter = 0;
+		for (int i = 0; i < map.getMap().length; i++) {
+			for (int j = 71; j < map.getMap()[0].length; j++) {
+				newMap[i][counter] = map.getMap()[i][j];
+				counter++;
+			}
+		}
+		for (Player player : playerList) {
+			player.sendGameData(newMap, s);
+		}
 	}
 }

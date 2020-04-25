@@ -38,7 +38,7 @@ public class Fighter extends Entity {
 		}
 	}
 
-	void falling(){
+	private void falling(){
 		if (!map.isWall(x, y + height)){
 			airborne = true;
 			y += Math.min(yVel + yAcc, maxVel);
@@ -48,7 +48,7 @@ public class Fighter extends Entity {
 		}
 	}
 
-	void moveRight(){
+	public void moveRight(){
 		if (xVel < 0){
 			xVel = 0;
 		}
@@ -69,7 +69,7 @@ public class Fighter extends Entity {
 		}
 	}
 
-	void moveLeft(){
+	public void moveLeft(){
 		if (xVel > 0){
 			xVel = 0;
 		}
@@ -90,15 +90,15 @@ public class Fighter extends Entity {
 		}
 	}
 
-	void lookUp(){
+	public void lookUp(){
 		direction = 11;
 	}
 
-	void lookDown(){
+	public void lookDown(){
 		direction = 00;
 	}
 
-	void jump(){
+	public void jump(){
 		if (airborne){
 			return;
 		}

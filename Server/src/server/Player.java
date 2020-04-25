@@ -2,6 +2,7 @@ package server;
 
 import entities.Entity;
 import entities.Fighter;
+import game.Map;
 
 import java.io.*;
 import java.net.Socket;
@@ -35,6 +36,7 @@ public class Player extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        startGame();
     }
 
     @Override
@@ -90,20 +92,20 @@ public class Player extends Thread{
             }
 
             switch (input[0]){
-                case "11":
+                case "11":fighter.lookUp();
                     break;
-                case "10":
+                case "10":fighter.moveLeft();
                     break;
-                case "00":
+                case "00":fighter.lookDown();
                     break;
-                case "01":
+                case "01":fighter.moveRight();
                     break;
                 case "/":
                     break;
             }
 
             switch (input[1]){
-                case "jump":
+                case "jump":fighter.jump();
                     break;
                 case "/":
                     break;
@@ -126,7 +128,7 @@ public class Player extends Thread{
     }
 
 
-    public void sendGameData(int[][] map, ArrayList<Entity> entities){
+    public void sendGameData(int[][] map, String entities){
         try {
             out.writeObject(map);
             out.writeObject(entities);
