@@ -30,4 +30,15 @@ public class Map {
       rect(entity.x * 15, entity.y * 15, entity.length * 15, entity.height * 15);
     }
   }
+
+  void updateEntities(String entityString) {
+    String[] allEntities = entityString.split(";");
+    
+    String[] entityData;
+      for (String entity : allEntities) {
+        entityData = entity.split(",");
+        fill(#E32FF7);
+        rect(Integer.parseInt(entityData[0]) * 15, Integer.parseInt(entityData[1]) * 15, 2 * 15, 6 * 15);
+    }
+  }
 }

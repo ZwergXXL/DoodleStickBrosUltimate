@@ -17,8 +17,9 @@ void setup() {
 void draw() {
   try {
     serverConnection.sendUserInput();
+    
     map.updateMap(serverConnection.readMap());
-    map.updateEntities(serverConnection.readEntityList());
+    map.updateEntities(serverConnection.readEntityString());
   }
   catch(Exception e) {
     e.printStackTrace();
