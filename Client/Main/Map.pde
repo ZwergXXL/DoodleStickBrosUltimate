@@ -37,6 +37,7 @@ public class Map {
     String[] entityData;
       for (String entity : allEntities) {
         entityData = entity.split(",");
+        fill(#E32FF7);
         rect(Integer.parseInt(entityData[0]) * 15, Integer.parseInt(entityData[1]) * 15, 2 * 15, 6 * 15);
     }
   }
