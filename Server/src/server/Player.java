@@ -86,6 +86,7 @@ public class Player extends Thread{
         String[] input = null;
         try {
             out.writeObject("sendInput");
+            System.out.println("input request sended");
 
             while (input == null) {
             input = ((String) in.readObject()).split("_");  // Movement Jump Ability
@@ -135,6 +136,7 @@ public class Player extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("data sended");
     }
 
 

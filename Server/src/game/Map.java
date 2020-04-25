@@ -13,8 +13,8 @@ public final class Map {
 	public Map() {
 
 		// Starting Platform
-		for (int x = 14; x < map[0].length - 14; x++) {
-			map[x][120] = 1;
+		for (int y = 14; y < map[0].length - 14; y++) {
+			map[120][y] = 1;
 			;
 		}
 	}
@@ -32,7 +32,7 @@ public final class Map {
 	public void moveAllDown() {
 		for (int x = 0; x < map[0].length; x++) {
 			for (int y = 1; y < map.length - 1; y++) {
-				map[x][y] = map[x][y - 1];
+				map[y][x] = map[y -1][x];
 			}
 		}
 	}

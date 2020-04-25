@@ -63,6 +63,7 @@ public class Server {
         }
         lobby.add(player);
         GameEngine gameEngine = new GameEngine(lobby);
+        gameEngine.start();
     }
 
 

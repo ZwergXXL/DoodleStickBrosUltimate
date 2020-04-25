@@ -26,7 +26,7 @@ public class Fighter extends Entity {
 	}
 
 	public String toString(){
-		return x + "," + y + "," + id + "," + frameID + "," + hp;
+		return x + "," + (y - 72)+ "," + id + "," + frameID + "," + hp;
 	}
 
 	@Override
@@ -36,15 +36,18 @@ public class Fighter extends Entity {
 		for (Spell spell: activeSpells){
 			spell.nextFrame();
 		}
+		System.out.println("fighter updated");
 	}
 
 	private void falling(){
 		if (!map.isWall(x, y + height)){
 			airborne = true;
-			y += Math.min(yVel + yAcc, maxVel);
+			yVel += yAcc;
+			y += Math.min(yVel, maxVel);
 		} else {
 			airborne = false;
 			yVel = 0;
+			System.out.println("WAAAAND");
 		}
 	}
 

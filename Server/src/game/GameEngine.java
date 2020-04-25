@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import entities.BetaBoy;
 import entities.Fighter;
 
-public final class GameEngine implements Runnable {
+public final class GameEngine extends Thread {
 
 	private final Map map;
 	private final ArrayList<Fighter> fighterList;
@@ -20,13 +20,14 @@ public final class GameEngine implements Runnable {
 		fighterList = new ArrayList<>();
 
 		for (Player player : playerList) {
-			player.setFighter(new Fighter(0, 2, 6, 20, 50, 2, 2, 0, 0, 10, player, this.map, 100));
+			player.setFighter(new Fighter(0, 2, 6, 50, 74, 2, 1, 0, 0, 4, player, this.map, 100));
 			fighterList.add(player.getFighter());
 		}
 	}
 
 	@Override
 	public void run() {
+		System.out.println("Game started :D");
 		long tickBeginning = System.currentTimeMillis();
 		long secondAhead = tickBeginning + 1000;
 		int fpsCounter = 0;
@@ -98,6 +99,9 @@ public final class GameEngine implements Runnable {
 		int counter = 0;
 		for (int i = 0; i < map.getMap().length; i++) {
 			for (int j = 71; j < map.getMap()[0].length; j++) {
+				if (counter == 72){
+					break;
+				}
 				newMap[i][counter] = map.getMap()[i][j];
 				counter++;
 			}

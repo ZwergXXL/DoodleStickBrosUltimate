@@ -28,10 +28,14 @@ public class ServerConnection {
   // Sends Userinput to Server
   void sendUserInput() throws IOException, ClassNotFoundException {
     String request = (String) in.readObject();
-    if (request != "sendInput") {
+    println(request);
+    
+    /*if (request != "sendInput") {
       sendUserInput();
       delay(1);
     }
+    */
+    println("got request");
 
     boolean[] userInputs = clientInput.keysPressed;
     String[] input = new String[3];
@@ -63,6 +67,8 @@ public class ServerConnection {
     }
     catch(IOException e) {
     }
+    
+    println("sended input");
   }
 
   int[][] readMap() throws IOException, ClassNotFoundException {
