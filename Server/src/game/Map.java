@@ -70,6 +70,9 @@ public final class Map {
 	}
 	
 	public boolean isWall (int x, int y) {
+		if (x >= map.length|y >= map[0].length|x <= 0| y <= 0){
+			return true;
+		}
 		if(map[x][y] == 1) {
 			return true;
 		}

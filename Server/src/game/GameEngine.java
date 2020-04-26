@@ -17,13 +17,16 @@ public final class GameEngine extends Thread {
 
 	int mapTileSetCounter = 0;
 
+	long mapUpdateTimer;
+
+
 	public GameEngine(ArrayList<Player> playerList) {
 		this.map = new Map();
 		this.playerList = playerList;
 		fighterList = new ArrayList<>();
 
 		for (Player player : playerList) {
-			player.setFighter(new Fighter(0, 2, 6, 50, 0, 1, 1, 0, 0, 3, player, this.map, 100));
+			player.setFighter(new Fighter(0, 2, 6, 50, 0, 1, 1, 0, 0, 2, player, this.map, 100));
 			fighterList.add(player.getFighter());
 		}
 	}
@@ -37,15 +40,15 @@ public final class GameEngine extends Thread {
 		// every time the map moves down 24 blocks (1/3 of the screen) a new TileSet
 		// should be added at the top
 
-		long mapUpdateTimer = tickBeginning + (33 * 5);
+		mapUpdateTimer = tickBeginning + (33 * 5);
 		while (true) {
 
 			// 60 FPS every frame the Engine updates itself
 			if (tickBeginning + 33 < System.currentTimeMillis()) {
 				fpsCounter++;
 
+				//mapUpdate();
 				fighterUpdate();
-				//mapUpdate(mapUpdateTimer);
 				sendData();
 
 				tickBeginning += 33;
@@ -53,7 +56,7 @@ public final class GameEngine extends Thread {
 
 			// FPS-Counter
 			if (secondAhead < System.currentTimeMillis()) {
-				System.out.println(fpsCounter);
+				System.out.println("FPS: " + fpsCounter);
 				secondAhead = tickBeginning + 1000;
 				fpsCounter = 0;
 			}
@@ -69,13 +72,18 @@ public final class GameEngine extends Thread {
 
 	}
 
-	private void mapUpdate(long mapUpdateTimer) {
+	private void mapUpdate() {
 		// randomNumber for mapGenerator a.k.a. map.addTileSet
 		int randomNumber;
 		// Every 5 frames do this
-		if (mapUpdateTimer < System.currentTimeMillis()) {
+		/*if (mapUpdateTimer < System.currentTimeMillis()) {
+			mapUpdateTimer += 33 * 5;
+			System.out.println("Map updated");
+		 */
+
 			map.moveAllDown();
 			mapTileSetCounter++;
+
 			if (mapTileSetCounter == 24) {
 
 				// SHOULD BE UPDATED WITH EACH NEW TILESET
@@ -83,7 +91,7 @@ public final class GameEngine extends Thread {
 				map.addTileSet(randomNumber);
 				mapTileSetCounter = 0;
 			}
-		}
+		//}
 	}
 
 	private void fighterUpdate() {

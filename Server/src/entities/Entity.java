@@ -2,11 +2,12 @@ package entities;
 
 public class Entity {
 
-	int id, length, height, x, y, xAcc, yAcc, xVel, yVel, maxVel, frameID;
+	int id, length, height, x, y, frameID;
+	double xAcc, yAcc, xVel, yVel, maxVel;
 	byte direction;
 	
 
-	public Entity(int id, int length, int height, int x, int y, int xAcc, int yAcc, int xVel, int yVel, int maxVel) {
+	public Entity(int id, int length, int height, int x, int y, double xAcc, double yAcc, double xVel, double yVel, double maxVel) {
 		this.id = id;
 		this.length = length;
 		this.height = height;

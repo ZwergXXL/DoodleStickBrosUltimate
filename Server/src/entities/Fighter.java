@@ -14,7 +14,7 @@ public class Fighter extends Entity {
     boolean airborne, isStunned;
     ArrayList<Spell> activeSpells;
 
-    public Fighter(int id, int length, int height, int x, int y, int xAcc, int yAcc, int xVel, int yVel, int maxVel, Player player, Map map, int hp) {
+    public Fighter(int id, int length, int height, int x, int y, double xAcc, double yAcc, double xVel, double yVel, double maxVel, Player player, Map map, int hp) {
         super(id, length, height, x, y, xAcc, yAcc, xVel, yVel, maxVel);
         this.player = player;
         this.map = map;
@@ -31,7 +31,7 @@ public class Fighter extends Entity {
 
     @Override
     public void nextFrame() {
-		falling();
+        falling();
         player.getInputData();
         for (Spell spell : activeSpells) {
             spell.nextFrame();
@@ -43,27 +43,30 @@ public class Fighter extends Entity {
         airborne = true;
         yVel += yAcc;
 
-        if (yVel < 0){
-        	y += yVel;
-		}
+        if (yVel < 0) {
+            y += yVel;
+            return;
+        }
 
         for (int j = 0; j < Math.min(yVel, maxVel); j++) {
-            if (map.isWall(x, y + height - 1)) {
-                airborne = false;
-                yVel = 0;
-                break;
+            for (int i = 0; i < length; i++) {
+                if (map.isWall(x + i, y + height - 1)) {
+                    airborne = false;
+                    yVel = 0;
+                    return;
+                }
             }
             y += 1;
         }
     }
 
 
-	public void jump() {
-		if (airborne) {
-			return;
-		}
-		yVel = maxVel * -2;
-	}
+    public void jump() {
+        if (airborne) {
+            return;
+        }
+        yVel = maxVel * -2;
+    }
 
     public void moveRight() {
         if (xVel < 0) {
@@ -75,7 +78,7 @@ public class Fighter extends Entity {
         if (airborne) {
             newVel = (int) Math.min(xVel + xAcc * 0.5, maxVel);
         } else {
-            newVel = Math.min(xVel + xAcc, maxVel);
+            newVel = (int) Math.min(xVel + xAcc, maxVel);
         }
         for (int j = 0; j <= newVel; j++) {
             for (int i = 0; i < height; i++) {
@@ -97,7 +100,7 @@ public class Fighter extends Entity {
         if (airborne) {
             newVel = (int) Math.max(xVel - xAcc * 0.5, -maxVel);
         } else {
-            newVel = Math.max(xVel - xAcc, -maxVel);
+            newVel = (int) Math.max(xVel - xAcc, -maxVel);
         }
         for (int j = 0; j >= newVel; j--) {
             for (int i = 0; i < height; i++) {
@@ -115,6 +118,9 @@ public class Fighter extends Entity {
 
     public void lookDown() {
         direction = 00;
+        if (!airborne){
+            y += 1;
+        }
     }
 
 

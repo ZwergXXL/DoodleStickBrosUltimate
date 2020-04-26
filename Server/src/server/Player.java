@@ -50,7 +50,6 @@ public class Player extends Thread{
             while (true) {
                 input = (String) in.readObject();
                 if(input != null){
-                    System.out.println(input);
 
                     switch (input){
                         case "idk":
@@ -86,7 +85,6 @@ public class Player extends Thread{
         String[] input = null;
         try {
             out.writeObject("sendInput");
-            System.out.println("input request sended");
 
             while (input == null) {
             input = ((String) in.readObject()).split("_");  // Movement Jump Ability
@@ -100,7 +98,6 @@ public class Player extends Thread{
                 case "00":fighter.lookDown();
                     break;
                 case "01":fighter.moveRight();
-                System.out.println("right");
                     break;
                 case "/":
                     break;
@@ -137,7 +134,6 @@ public class Player extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("data sended");
     }
 
 
