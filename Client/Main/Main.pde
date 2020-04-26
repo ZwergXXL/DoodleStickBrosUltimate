@@ -6,7 +6,8 @@ boolean[] keysPressed;
 
 
 void setup() {
-  size(1920, 1080); 
+  //size(1920, 1080); 
+  fullScreen();
   background(255);
 
   keysPressed = new boolean[5]; // W A S D Space

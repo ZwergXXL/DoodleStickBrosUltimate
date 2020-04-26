@@ -74,16 +74,16 @@ public class Fighter extends Entity {
         }
         direction = 01;
 
-        int newVel;
         if (airborne) {
-            newVel = (int) Math.min(xVel + xAcc * 0.5, maxVel);
+            xVel += xAcc * 0.5;
         } else {
-            newVel = (int) Math.min(xVel + xAcc, maxVel);
+            xVel += xAcc;
         }
-        for (int j = 0; j <= newVel; j++) {
+        for (int j = 0; j <= Math.min(xVel, maxVel); j++) {
             for (int i = 0; i < height; i++) {
-                if (map.isWall(x + (length - 1) + j, y + i)) {
-                    break;
+                System.out.println(i);
+                if (map.isWall(x + (length - 1) + j, y + i - 1)) {
+                    return;
                 }
             }
             x += 1;
