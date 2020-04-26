@@ -24,8 +24,8 @@ public class Map {
     for (String entity : allEntities) {
       entityData = entity.split(",");
       fill(#E32FF7);
-      //println(Integer.parseInt(entityData[0]) + " " + Integer.parseInt(entityData[1]));
+      println(Integer.parseInt(entityData[0]) + " " + Integer.parseInt(entityData[1]));
       rect(Integer.parseInt(entityData[0]) * 15, Integer.parseInt(entityData[1]) * 15, 2 * 15, 6 * 15);
-    }
+    } 
   }
 }

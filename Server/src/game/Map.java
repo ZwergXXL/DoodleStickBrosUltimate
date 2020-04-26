@@ -13,26 +13,25 @@ public final class Map {
 	public Map() {
 
 		// Starting Platform
-		for (int y = 14; y < map[0].length - 14; y++) {
-			map[120][y] = 1;
-			;
+		for (int x = 14; x < map.length - 15; x++) {
+			map[x][120] = 1;
 		}
 	}
 
 	// loads a preset tileSet from switch case to top Row of Game.Map
 	public void addTileSet(int preset) {
 		int[][] newTileSet = getTileset(preset);
-		for (int x = 0; x < map[0].length; x++) {
-			for (int y = 0; y < 23; y++) {
+		for (int x = 0; x < map.length; x++) {
+			for (int y = 0; y < emptyTileset[0].length; y++) {
 				map[x][y] = newTileSet[x][y];
 			}
 		}
 	}
 
 	public void moveAllDown() {
-		for (int x = 0; x < map[0].length; x++) {
-			for (int y = 1; y < map.length - 1; y++) {
-				map[y][x] = map[y -1][x];
+		for (int x = 0; x < map.length; x++) {
+			for (int y = map[0].length -1; y > 0; y--) {
+				map[x][y] = map[x][y - 1];
 			}
 		}
 	}

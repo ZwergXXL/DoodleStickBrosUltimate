@@ -14,13 +14,16 @@ public final class GameEngine extends Thread {
 	private final ArrayList<Fighter> fighterList;
 	private final ArrayList<Player> playerList;
 
+
+	int mapTileSetCounter = 0;
+
 	public GameEngine(ArrayList<Player> playerList) {
 		this.map = new Map();
 		this.playerList = playerList;
 		fighterList = new ArrayList<>();
 
 		for (Player player : playerList) {
-			player.setFighter(new Fighter(0, 2, 6, 50, 0, 2, 1, 1, 0, 4, player, this.map, 100));
+			player.setFighter(new Fighter(0, 2, 6, 50, 0, 1, 1, 0, 0, 3, player, this.map, 100));
 			fighterList.add(player.getFighter());
 		}
 	}
@@ -42,7 +45,7 @@ public final class GameEngine extends Thread {
 				fpsCounter++;
 
 				fighterUpdate();
-				mapUpdate(mapUpdateTimer);
+				//mapUpdate(mapUpdateTimer);
 				sendData();
 
 				tickBeginning += 33;
@@ -67,7 +70,6 @@ public final class GameEngine extends Thread {
 	}
 
 	private void mapUpdate(long mapUpdateTimer) {
-		int mapTileSetCounter = 0;
 		// randomNumber for mapGenerator a.k.a. map.addTileSet
 		int randomNumber;
 		// Every 5 frames do this
@@ -98,12 +100,12 @@ public final class GameEngine extends Thread {
 		int[][] newMap = new int[128][72];
 		int counter = 0;
 		for (int i = 0; i < map.getMap().length; i++) {
+			counter = 0;
 			for (int j = 71; j < map.getMap()[0].length; j++) {
-				if (counter == 72){
-					break;
+				if (counter < 72) {
+					newMap[i][counter] = map.getMap()[i][j];
+					counter++;
 				}
-				newMap[i][counter] = map.getMap()[i][j];
-				counter++;
 			}
 		}
 		for (Player player : playerList) {
