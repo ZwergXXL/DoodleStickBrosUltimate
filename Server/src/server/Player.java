@@ -100,6 +100,7 @@ public class Player extends Thread{
                 case "00":fighter.lookDown();
                     break;
                 case "01":fighter.moveRight();
+                System.out.println("right");
                     break;
                 case "/":
                     break;

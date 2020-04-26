@@ -8,13 +8,14 @@ public class ServerConnection {
   Socket socket;
   ObjectInputStream in;
   ObjectOutputStream out;
-  ClientInput clientInput;
 
-  ServerConnection(ClientInput clientInput) {
+  Main main;
+
+  ServerConnection(Main main) {
     try {
       this.socket = new Socket("127.0.0.1", 12345);
-      this.clientInput = clientInput;
-
+      this.main = main;
+      
       out = new ObjectOutputStream(socket.getOutputStream());
       in = new ObjectInputStream((socket.getInputStream()));
     } 
@@ -28,16 +29,8 @@ public class ServerConnection {
   // Sends Userinput to Server
   void sendUserInput() throws IOException, ClassNotFoundException {
     String request = (String) in.readObject();
-    println(request);
-    
-    /*if (request != "sendInput") {
-      sendUserInput();
-      delay(1);
-    }
-    */
-    println("got request");
 
-    boolean[] userInputs = clientInput.keysPressed;
+    boolean[] userInputs = main.getKeysPressed();
     String[] input = new String[3];
     for (int i = 0; i < input.length; i++) {
       input[i] = "/";
@@ -61,14 +54,11 @@ public class ServerConnection {
         input[0] = "01";
       }
     }
-
     try {
       out.writeObject(new String(input[0] + "_" + input[1] + "_" + input[2]));
     }
     catch(IOException e) {
     }
-    
-    println("sended input");
   }
 
   int[][] readMap() throws IOException, ClassNotFoundException {

@@ -20,7 +20,7 @@ public final class GameEngine extends Thread {
 		fighterList = new ArrayList<>();
 
 		for (Player player : playerList) {
-			player.setFighter(new Fighter(0, 2, 6, 50, 74, 2, 1, 0, 0, 4, player, this.map, 100));
+			player.setFighter(new Fighter(0, 2, 6, 50, 0, 2, 1, 1, 0, 4, player, this.map, 100));
 			fighterList.add(player.getFighter());
 		}
 	}

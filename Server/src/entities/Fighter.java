@@ -51,6 +51,7 @@ public class Fighter extends Entity {
 		}
 	}
 
+
 	public void moveRight(){
 		if (xVel < 0){
 			xVel = 0;
@@ -66,9 +67,10 @@ public class Fighter extends Entity {
 		for(int j = 0; j <= newVel; j++) {
 			for (int i = 0; i < height; i++) {
 				if (map.isWall(x + (length-1) + j, y + i)){
-					x += j - 1;
+					break;
 				}
 			}
+			x += 1;
 		}
 	}
 
@@ -87,9 +89,10 @@ public class Fighter extends Entity {
 		for(int j = 0; j >= newVel; j--) {
 			for (int i = 0; i < height; i++) {
 				if (map.isWall(x + j, y + i)){
-					x += j + 1;
+					break;
 				}
 			}
+			x += -1;
 		}
 	}
 
@@ -102,9 +105,11 @@ public class Fighter extends Entity {
 	}
 
 	public void jump(){
-		if (airborne){
+		/*if (airborne){
 			return;
 		}
+
+		 */
 		yVel = -maxVel;
 	}
 

@@ -10,6 +10,6 @@ public class Spell extends Entity {
 	}
 
 	public String toString(){
-		return x + "," + y + "," + id + "," + frameID;
+		return x + "," + (y - 72) + "," + id + "," + frameID;
 	}
 }
