@@ -24,7 +24,7 @@ public final class GameEngine extends Thread {
 		fighterList = new ArrayList<>();
 
 		for (Player player : playerList) {
-			player.setFighter(new Fighter(0, 2, 6, 50, 0, 1, 1, 0, 0, 2, player, this.map, 100));
+			player.setFighter(new Fighter(0, 2, 6, 17, 200, 0.2, 0.2, 0, 0, 2, player, this.map, 100));
 			fighterList.add(player.getFighter());
 		}
 	}
@@ -54,7 +54,7 @@ public final class GameEngine extends Thread {
 
 			// FPS-Counter
 			if (secondAhead < System.currentTimeMillis()) {
-				System.out.println("FPS: " + fpsCounter);
+				//System.out.println("FPS: " + fpsCounter);
 				secondAhead = tickBeginning + 1000;
 				fpsCounter = 0;
 			}
@@ -76,10 +76,10 @@ public final class GameEngine extends Thread {
 		// Every 20 frames do this
 		if (mapUpdateTimer < System.currentTimeMillis()) {
 			mapUpdateTimer += 33 * 20;
-			System.out.println("Map updated");
+			//System.out.println("Map updated");
 
-			map.moveAllDown();
-			mapTileSetCounter++;
+			//map.moveAllDown();
+			//mapTileSetCounter++;
 
 			if (mapTileSetCounter == 24) {
 
@@ -113,6 +113,8 @@ public final class GameEngine extends Thread {
 				}
 			}
 		}
+		
+		//System.out.println("newMap x: " + newMap.length+"y: "+newMap[0].length);
 		for (Player player : playerList) {
 			player.sendGameData(newMap, s);
 		}

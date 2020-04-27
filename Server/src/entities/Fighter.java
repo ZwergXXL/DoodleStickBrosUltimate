@@ -29,7 +29,7 @@ public class Fighter extends Entity {
 	}
 
 	public String toString() {
-		return x + "," + (y - 72) + "," + id + "," + frameID + "," + hp;
+		return x + "," + (y - map.getMap()[0].length/2) + "," + id + "," + frameID + "," + hp;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class Fighter extends Entity {
 			height = height * 2;
 			y = y - duckedHeight;
 		}
-		System.out.println("fighter updated");
+		//System.out.println("fighter updated");
 	}
 
 	private void falling() {
@@ -102,9 +102,12 @@ public class Fighter extends Entity {
 		} else {
 			xVel += xAcc;
 		}
+		
 		for (int j = 0; j < Math.min(xVel, maxVel); j++) {
+			System.out.println("RIGHT	J:    "+j);
 			for (int i = 0; i < height; i++) {
 				if (map.isWall(x + length + j, y + i - 1)) {
+					System.out.println("RIGHT NOT WORKING REEE!");
 					return;
 				}
 			}
@@ -121,15 +124,16 @@ public class Fighter extends Entity {
 		}
 		direction = 10;
 
-		int newVel;
 		if (airborne) {
 			xVel -= xAcc * 0.5;
 		} else {
 			xVel -= xAcc;
 		}
 
-		for (int j = 0; j > Math.max(xVel, -maxVel); j--) {
-			for (int i = 0; i < height; i++) {
+		for (int j = -1; j > Math.max(xVel, -maxVel); j--) {
+			System.out.println("LEFT	J:    "+j);
+			for (int i = -1; i < height; i++) {
+				//System.out.println(x+j);
 				if (map.isWall(x + j, y + i - 1)) {
 					return;
 				}

@@ -13,12 +13,18 @@ public final class Map {
 
 		// Starting Platform
 		for (int x = 14; x < map.length - 15; x++) {
-			map[x][120] = 1;
+			map[x][240] = 1;
 		}
 
 		// DELETE- THIS for testing only
-		map[14][119] = 1;
-		map[14][115] = 1;
+		map[14][239] = 1;
+		map[14][235] = 1;
+		map[14][240] = 1;
+		map[14][236] = 1;
+		map[20][239] = 1;
+		map[20][235] = 1;
+		map[20][240] = 1;
+		map[20][236] = 1;
 	}
 
 	// loads a preset tileSet from switch case to top Row of Game.Map
@@ -76,8 +82,10 @@ public final class Map {
 		if (x >= map.length | y >= map[0].length | x <= 0 | y <= 0) {
 			return true;
 		}
+		//System.out.println("no");
 		if (map[x][y] == 1) {
 			return true;
+			
 		}
 		return false;
 	}
