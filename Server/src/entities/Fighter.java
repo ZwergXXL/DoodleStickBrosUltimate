@@ -7,164 +7,196 @@ import java.util.ArrayList;
 
 public class Fighter extends Entity {
 
-    Player player;
-    Map map;
+	Player player;
+	Map map;
 
-    int hp;
-    boolean airborne, isStunned;
-    ArrayList<Spell> activeSpells;
+	int hp, duckedHeight;
+	boolean airborne, isStunned, isCrouched;
+	ArrayList<Spell> activeSpells;
 
-    public Fighter(int id, int length, int height, int x, int y, double xAcc, double yAcc, double xVel, double yVel, double maxVel, Player player, Map map, int hp) {
-        super(id, length, height, x, y, xAcc, yAcc, xVel, yVel, maxVel);
-        this.player = player;
-        this.map = map;
-        this.hp = hp;
+	public Fighter(int id, int length, int height, int x, int y, double xAcc, double yAcc, double xVel, double yVel,
+			double maxVel, Player player, Map map, int hp) {
+		super(id, length, height, x, y, xAcc, yAcc, xVel, yVel, maxVel);
+		this.player = player;
+		this.map = map;
+		this.hp = hp;
 
-        airborne = false;
-        isStunned = false;
-        activeSpells = new ArrayList<>();
-    }
+		airborne = false;
+		isStunned = false;
+		isCrouched = false;
+		duckedHeight = height / 2;
+		activeSpells = new ArrayList<>();
+	}
 
-    public String toString() {
-        return x + "," + (y - 72) + "," + id + "," + frameID + "," + hp;
-    }
+	public String toString() {
+		return x + "," + (y - 72) + "," + id + "," + frameID + "," + hp;
+	}
 
-    @Override
-    public void nextFrame() {
-        falling();
-        player.getInputData();
-        for (Spell spell : activeSpells) {
-            spell.nextFrame();
-        }
-        System.out.println("fighter updated");
-    }
+	@Override
+	public void nextFrame() {
+		boolean wasCrouched = false;
+		if (isCrouched) {
+			wasCrouched = true;
+		}
 
-    private void falling() {
-        airborne = true;
-        yVel += yAcc;
+		falling();
+		player.getInputData();
+		for (Spell spell : activeSpells) {
+			spell.nextFrame();
+		}
 
-        if (yVel < 0) {
-            y += yVel;
-            return;
-        }
+		// if the fighter takes cover his vertical hitbox is getting halved, if he
+		// returns form cover his hitbox doubles to its former value
+		if (isCrouched && !wasCrouched) {
+			height = duckedHeight;
+			y = y + duckedHeight;
+		} else if (!isCrouched && wasCrouched) {
+			height = height * 2;
+			y = y - duckedHeight;
+		}
+		System.out.println("fighter updated");
+	}
 
-        for (int j = 0; j < Math.min(yVel, maxVel); j++) {
-            for (int i = 0; i < length; i++) {
-                if (map.isWall(x + i, y + height - 1)) {
-                    airborne = false;
-                    yVel = 0;
-                    return;
-                }
-            }
-            y += 1;
-        }
-    }
+	private void falling() {
+		airborne = true;
+		yVel += yAcc;
 
+		if (yVel < 0) {
+			y += yVel;
+			return;
+		}
 
-    public void jump() {
-        if (airborne) {
-            return;
-        }
-        yVel = maxVel * -3;
-    }
+		for (int j = 0; j < Math.min(yVel, maxVel); j++) {
+			for (int i = 0; i < length; i++) {
+				if (map.isWall(x + i, y + height - 1)) {
+					airborne = false;
+					yVel = 0;
+					return;
+				}
+			}
+			y += 1;
+		}
+	}
 
-    public void moveRight() {
-        if (xVel < 0) {
-            xVel = 0;
-        }
-        direction = 01;
+	public void jump() {
+		if (isCrouched) {
+			isCrouched = false;
+		}
+		if (airborne) {
+			return;
+		}
+		yVel = maxVel * -3;
+	}
 
-        if (airborne) {
-            xVel += xAcc * 0.5;
-        } else {
-            xVel += xAcc;
-        }
-        for (int j = 0; j < Math.min(xVel, maxVel); j++) {
-            for (int i = 0; i < height; i++) {
-                if (map.isWall(x + length + j, y + i - 1)) {
-                    return;
-                }
-            }
-            x += 1;
-        }
-    }
+	public void moveRight() {
+		if (isCrouched) {
+			isCrouched = false;
+		}
+		if (xVel < 0) {
+			xVel = 0;
+		}
+		direction = 01;
 
-    public void moveLeft() {
-        if (xVel > 0) {
-            xVel = 0;
-        }
-        direction = 10;
+		if (airborne) {
+			xVel += xAcc * 0.5;
+		} else {
+			xVel += xAcc;
+		}
+		for (int j = 0; j < Math.min(xVel, maxVel); j++) {
+			for (int i = 0; i < height; i++) {
+				if (map.isWall(x + length + j, y + i - 1)) {
+					return;
+				}
+			}
+			x += 1;
+		}
+	}
 
-        int newVel;
-        if (airborne) {
-             xVel -= xAcc * 0.5;
-        } else {
-            xVel  -= xAcc;
-        }
+	public void moveLeft() {
+		if (isCrouched) {
+			isCrouched = false;
+		}
+		if (xVel > 0) {
+			xVel = 0;
+		}
+		direction = 10;
 
-        for (int j = 0; j > Math.max(xVel, -maxVel); j--) {
-            for (int i = 0; i < height; i++) {
-                if (map.isWall(x + j, y + i - 1)) {
-                    return;
-                }
-            }
-            x += -1;
-        }
-    }
+		int newVel;
+		if (airborne) {
+			xVel -= xAcc * 0.5;
+		} else {
+			xVel -= xAcc;
+		}
 
-    public void lookUp() {
-        direction = 11;
-    }
+		for (int j = 0; j > Math.max(xVel, -maxVel); j--) {
+			for (int i = 0; i < height; i++) {
+				if (map.isWall(x + j, y + i - 1)) {
+					return;
+				}
+			}
+			x += -1;
+		}
+	}
 
-    public void lookDown() {
-        direction = 00;
-        if (!airborne){
-            y += 1;
-        }
-    }
+	public void lookUp() {
+		if (isCrouched) {
+			isCrouched = false;
+		}
+		direction = 11;
+	}
 
+	public void lookDown() {
+		if (direction == 00) {
+			return;
+		}
 
-    public Player getPlayer() {
-        return player;
-    }
+		if (!airborne) {
+			isCrouched = true;
+			direction = 00;
+		}
+	}
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
+	public Player getPlayer() {
+		return player;
+	}
 
-    public Map getMap() {
-        return map;
-    }
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 
-    public void setMap(Map map) {
-        this.map = map;
-    }
+	public Map getMap() {
+		return map;
+	}
 
-    public int getHp() {
-        return hp;
-    }
+	public void setMap(Map map) {
+		this.map = map;
+	}
 
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
+	public int getHp() {
+		return hp;
+	}
 
-    public boolean isAirborne() {
-        return airborne;
-    }
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
 
-    public void setAirborne(boolean airborne) {
-        this.airborne = airborne;
-    }
+	public boolean isAirborne() {
+		return airborne;
+	}
 
-    public boolean isStunned() {
-        return isStunned;
-    }
+	public void setAirborne(boolean airborne) {
+		this.airborne = airborne;
+	}
 
-    public void setStunned(boolean stunned) {
-        isStunned = stunned;
-    }
+	public boolean isStunned() {
+		return isStunned;
+	}
 
-    public ArrayList<Spell> getActiveSpells() {
-        return activeSpells;
-    }
+	public void setStunned(boolean stunned) {
+		isStunned = stunned;
+	}
+
+	public ArrayList<Spell> getActiveSpells() {
+		return activeSpells;
+	}
 }

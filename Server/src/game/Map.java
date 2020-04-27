@@ -16,6 +16,10 @@ public final class Map {
 		for (int x = 14; x < map.length - 15; x++) {
 			map[x][120] = 1;
 		}
+		
+		//DELETE- THIS for testing only
+		map[14][119] = 1;
+		map[14][115] = 1;		
 	}
 
 	// loads a preset tileSet from switch case to top Row of Game.Map
