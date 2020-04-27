@@ -3,7 +3,7 @@ package game;
 public final class Map {
 
 	// 72*2 = 144 map grows outside of render distance
-	private int[][] map = new int[480][540];
+	private int[][] map = new int[240][270];
 
 	// Tileset filled with Air
 
@@ -13,7 +13,7 @@ public final class Map {
 
 		// Starting Platform
 		for (int x = 14; x < map.length - 15; x++) {
-			map[x][480] = 1;
+			map[x][240] = 1;
 		}
 
 		// DELETE- THIS for testing only
