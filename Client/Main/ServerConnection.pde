@@ -13,7 +13,7 @@ public class ServerConnection {
 
   ServerConnection(Main main) {
     try {
-      this.socket = new Socket("192.168.178.113", 12345);
+      this.socket = new Socket("127.0.0.1", 12345);
       this.main = main;
       
       out = new ObjectOutputStream(socket.getOutputStream());

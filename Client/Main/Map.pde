@@ -1,8 +1,10 @@
 public class Map {
   
-  int blockSize = 4;
+  int blockSize = 8;
+  PImage yeaah;
   
   Map() {
+    yeaah = loadImage("test.jpg");
   }
 
   void updateMap(int[][] map) {
@@ -25,8 +27,9 @@ public class Map {
     for (String entity : allEntities) {
       entityData = entity.split(",");
       fill(#E32FF7);
-      println(Integer.parseInt(entityData[0]) + " " + Integer.parseInt(entityData[1]));
-      rect(Integer.parseInt(entityData[0]) * blockSize, Integer.parseInt(entityData[1]) * blockSize, 4 * blockSize, 10 * blockSize);
+      // println(Integer.parseInt(entityData[0]) + " " + Integer.parseInt(entityData[1]));
+      //rect(Integer.parseInt(entityData[0]) * blockSize, Integer.parseInt(entityData[1]) * blockSize, 4 * blockSize, 10 * blockSize);
+      image(yeaah, Integer.parseInt(entityData[0]) * blockSize, Integer.parseInt(entityData[1]) * blockSize);
     } 
   }
 }
