@@ -4,7 +4,7 @@ package game;
 public final class Map {
 
 	// 72*2 = 144 map grows outside of render distance
-	private int[][] map = new int[128][144];
+	private int[][] map = new int[256][288];
 
 	// Tileset filled with Air
 

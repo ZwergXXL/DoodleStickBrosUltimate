@@ -14,11 +14,9 @@ public final class GameEngine extends Thread {
 	private final ArrayList<Fighter> fighterList;
 	private final ArrayList<Player> playerList;
 
-
 	int mapTileSetCounter = 0;
 
 	long mapUpdateTimer;
-
 
 	public GameEngine(ArrayList<Player> playerList) {
 		this.map = new Map();
@@ -40,14 +38,14 @@ public final class GameEngine extends Thread {
 		// every time the map moves down 24 blocks (1/3 of the screen) a new TileSet
 		// should be added at the top
 
-		mapUpdateTimer = tickBeginning + (33 * 5);
+		mapUpdateTimer = tickBeginning + (33 * 20);
 		while (true) {
 
 			// 60 FPS every frame the Engine updates itself
 			if (tickBeginning + 33 < System.currentTimeMillis()) {
 				fpsCounter++;
 
-				//mapUpdate();
+				mapUpdate();
 				fighterUpdate();
 				sendData();
 
@@ -75,11 +73,10 @@ public final class GameEngine extends Thread {
 	private void mapUpdate() {
 		// randomNumber for mapGenerator a.k.a. map.addTileSet
 		int randomNumber;
-		// Every 5 frames do this
-		/*if (mapUpdateTimer < System.currentTimeMillis()) {
-			mapUpdateTimer += 33 * 5;
+		// Every 20 frames do this
+		if (mapUpdateTimer < System.currentTimeMillis()) {
+			mapUpdateTimer += 33 * 20;
 			System.out.println("Map updated");
-		 */
 
 			map.moveAllDown();
 			mapTileSetCounter++;
@@ -91,7 +88,7 @@ public final class GameEngine extends Thread {
 				map.addTileSet(randomNumber);
 				mapTileSetCounter = 0;
 			}
-		//}
+		}
 	}
 
 	private void fighterUpdate() {
@@ -105,12 +102,12 @@ public final class GameEngine extends Thread {
 		for (Fighter fighter : fighterList) {
 			s += fighter.toString() + ';';
 		}
-		int[][] newMap = new int[128][72];
+		int[][] newMap = new int[map.getMap().length][map.getMap()[0].length / 2];
 		int counter = 0;
 		for (int i = 0; i < map.getMap().length; i++) {
 			counter = 0;
-			for (int j = 71; j < map.getMap()[0].length; j++) {
-				if (counter < 72) {
+			for (int j = map.getMap()[0].length / 2 - 1; j < map.getMap()[0].length; j++) {
+				if (counter < map.getMap()[0].length / 2) {
 					newMap[i][counter] = map.getMap()[i][j];
 					counter++;
 				}
