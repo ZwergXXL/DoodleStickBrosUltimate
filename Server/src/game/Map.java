@@ -1,6 +1,5 @@
 package game;
 
-
 public final class Map {
 
 	// 72*2 = 144 map grows outside of render distance
@@ -8,7 +7,7 @@ public final class Map {
 
 	// Tileset filled with Air
 
-	int[][] emptyTileset = new int[128][24];
+	int[][] emptyTileset = new int[map.length][map[0].length / 6];
 
 	public Map() {
 
@@ -16,10 +15,10 @@ public final class Map {
 		for (int x = 14; x < map.length - 15; x++) {
 			map[x][120] = 1;
 		}
-		
-		//DELETE- THIS for testing only
+
+		// DELETE- THIS for testing only
 		map[14][119] = 1;
-		map[14][115] = 1;		
+		map[14][115] = 1;
 	}
 
 	// loads a preset tileSet from switch case to top Row of Game.Map
@@ -34,7 +33,7 @@ public final class Map {
 
 	public void moveAllDown() {
 		for (int x = 0; x < map.length; x++) {
-			for (int y = map[0].length -1; y > 0; y--) {
+			for (int y = map[0].length - 1; y > 0; y--) {
 				map[x][y] = map[x][y - 1];
 			}
 		}
@@ -69,15 +68,15 @@ public final class Map {
 		return tileSet;
 	}
 
-	public int[][] getMap(){
+	public int[][] getMap() {
 		return map;
 	}
-	
-	public boolean isWall (int x, int y) {
-		if (x >= map.length|y >= map[0].length|x <= 0| y <= 0){
+
+	public boolean isWall(int x, int y) {
+		if (x >= map.length | y >= map[0].length | x <= 0 | y <= 0) {
 			return true;
 		}
-		if(map[x][y] == 1) {
+		if (map[x][y] == 1) {
 			return true;
 		}
 		return false;
