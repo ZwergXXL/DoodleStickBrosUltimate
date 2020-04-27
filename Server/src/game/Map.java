@@ -21,10 +21,10 @@ public final class Map {
 		map[14][235] = 1;
 		map[14][240] = 1;
 		map[14][236] = 1;
-		map[20][239] = 1;
-		map[20][235] = 1;
-		map[20][240] = 1;
-		map[20][236] = 1;
+		map[225][239] = 1;
+		map[225][235] = 1;
+		map[225][240] = 1;
+		map[225][236] = 1;
 	}
 
 	// loads a preset tileSet from switch case to top Row of Game.Map

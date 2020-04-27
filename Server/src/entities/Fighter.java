@@ -85,7 +85,7 @@ public class Fighter extends Entity {
 		if (airborne) {
 			return;
 		}
-		yVel = maxVel * -3;
+		yVel = maxVel * -2;
 	}
 
 	/*
@@ -116,33 +116,35 @@ public class Fighter extends Entity {
 		if (isCrouched) {
 			isCrouched = false;
 		}
-		if (xVel > 0) {
-			xVel = 0;
-		}
+		
 		direction = 10;
+		// storing how many blocks are between fighter and a Wall
+		int moveCounter = 0;
 		if (airborne) {
-			for (int j = 0; j > -2; j--) {
-				System.out.println("LEFT	J:    " + j);
-				for (int i = -1; i < height; i++) {
-					// System.out.println(x+j);
-					if (map.isWall(x + j - 1, y + i - 1)) {
+			//airborne makes you 1 tile slower per frame -> xVel-1
+			for (int j = 0; j > -xVel -1; j--) {
+				for (int i = -1; i < height-1; i++) {
+					if (map.isWall(x + j - 1, y + i)) {
+						x += moveCounter;
 						return;
 					}
 				}
-				x += -1;
+				moveCounter--;
 			}
 		} else {
-			for (int j = 0; j > -3; j--) {
+			for (int j = 0; j > -xVel; j--) {
 				System.out.println("LEFT	J:    " + j);
-				for (int i = -1; i < height; i++) {
-					// System.out.println(x+j);
-					if (map.isWall(x + j - 1, y + i - 1)) {
+				for (int i = 0; i < height-1; i++) {
+					if (map.isWall(x + j - 1, y + i)) {
+						x += moveCounter;
 						return;
 					}
 				}
-				x += -1;
+				moveCounter--;
 			}
 		}
+		
+		x += moveCounter;
 
 	}
 
@@ -150,34 +152,36 @@ public class Fighter extends Entity {
 		if (isCrouched) {
 			isCrouched = false;
 		}
-		if (xVel < 0) {
-			xVel = 0;
-		}
+		
 		direction = 01;
+		// storing how many blocks are between fighter and a Wall
+		int moveCounter = 0;
 		if (airborne) {
-			for (int j = 0; j < 2; j++) {
-				System.out.println("RIGHT	J:    " + j);
-				for (int i = 0; i < height; i++) {
-					if (map.isWall(x + length + j + 1, y + i - 1)) {
-						System.out.println("RIGHT NOT WORKING REEE!");
+			//airborne makes you 1 tile slower per frame -> xVel-1
+			for (int j = 0; j < xVel-1; j++) {
+				for (int i = 0; i < height-1; i++) {
+					if (map.isWall(x + length-1 + j + 1, y + i)) {
+						x += moveCounter;
 						return;
 					}
 				}
-				x += 1;
+				moveCounter++;
 			}
 		} else {
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < xVel; j++) {
 				System.out.println("RIGHT	J:    " + j);
-				for (int i = 0; i < height; i++) {
-					if (map.isWall(x + length + j + 1, y + i - 1)) {
-						System.out.println("RIGHT NOT WORKING REEE!");
+				for (int i = 0; i < height-1; i++) {
+					if (map.isWall(x + length-1 + j + 1, y + i)) {
+						x += moveCounter;
 						return;
 					}
 				}
-				x += 1;
+				moveCounter++;
 			}
 		}
 
+		x += moveCounter;
+		
 	}
 
 	public void lookUp() {
