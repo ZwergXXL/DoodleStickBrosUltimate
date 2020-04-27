@@ -65,7 +65,7 @@ public class Fighter extends Entity {
         if (airborne) {
             return;
         }
-        yVel = maxVel * -2;
+        yVel = maxVel * -3;
     }
 
     public void moveRight() {
@@ -79,10 +79,9 @@ public class Fighter extends Entity {
         } else {
             xVel += xAcc;
         }
-        for (int j = 0; j <= Math.min(xVel, maxVel); j++) {
+        for (int j = 0; j < Math.min(xVel, maxVel); j++) {
             for (int i = 0; i < height; i++) {
-                System.out.println(i);
-                if (map.isWall(x + (length - 1) + j, y + i - 1)) {
+                if (map.isWall(x + length + j, y + i - 1)) {
                     return;
                 }
             }
@@ -98,14 +97,15 @@ public class Fighter extends Entity {
 
         int newVel;
         if (airborne) {
-            newVel = (int) Math.max(xVel - xAcc * 0.5, -maxVel);
+             xVel -= xAcc * 0.5;
         } else {
-            newVel = (int) Math.max(xVel - xAcc, -maxVel);
+            xVel  -= xAcc;
         }
-        for (int j = 0; j >= newVel; j--) {
+
+        for (int j = 0; j > Math.max(xVel, -maxVel); j--) {
             for (int i = 0; i < height; i++) {
-                if (map.isWall(x + j, y + i)) {
-                    break;
+                if (map.isWall(x + j, y + i - 1)) {
+                    return;
                 }
             }
             x += -1;
