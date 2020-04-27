@@ -24,7 +24,7 @@ public final class GameEngine extends Thread {
 		fighterList = new ArrayList<>();
 
 		for (Player player : playerList) {
-			player.setFighter(new Fighter(0, 2, 6, 17, 200, 0.2, 0.2, 0, 0, 2, player, this.map, 100));
+			player.setFighter(new Fighter(0, 4, 10, 17, 400, 1, 1, 0, 0, 4, player, this.map, 100));
 			fighterList.add(player.getFighter());
 		}
 	}
@@ -54,7 +54,7 @@ public final class GameEngine extends Thread {
 
 			// FPS-Counter
 			if (secondAhead < System.currentTimeMillis()) {
-				//System.out.println("FPS: " + fpsCounter);
+				System.out.println("FPS: " + fpsCounter);
 				secondAhead = tickBeginning + 1000;
 				fpsCounter = 0;
 			}

@@ -1,17 +1,18 @@
 public class Map {
   
-  int blockSize = 10;
+  int blockSize = 4;
   
   Map() {
   }
 
   void updateMap(int[][] map) {
       fill(0);
-      for (int y = 0; y < 144; y++) {
-        for (int x = 0; x < 256; x++) {
+      for (int y = 0; y < height/blockSize; y++) {
+        for (int x = 0; x < width/blockSize; x++) {
           if (map[x][y] == 1) {
             square(x * blockSize, y * blockSize, blockSize);
           }
+          
       }
     }
   }
@@ -25,7 +26,7 @@ public class Map {
       entityData = entity.split(",");
       fill(#E32FF7);
       println(Integer.parseInt(entityData[0]) + " " + Integer.parseInt(entityData[1]));
-      rect(Integer.parseInt(entityData[0]) * blockSize, Integer.parseInt(entityData[1]) * blockSize, 2 * blockSize, 6 * blockSize);
+      rect(Integer.parseInt(entityData[0]) * blockSize, Integer.parseInt(entityData[1]) * blockSize, 4 * blockSize, 10 * blockSize);
     } 
   }
 }
